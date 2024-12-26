@@ -1,4 +1,8 @@
-const images = ["image1.jpg", "image2.jpg", "image3.jpg"]; // Replace with your image URLs
+const images = [
+    "https://via.placeholder.com/200x200.png?text=Image+1",
+    "https://via.placeholder.com/200x200.png?text=Image+2",
+    "https://via.placeholder.com/200x200.png?text=Image+3"
+]; 
 let displayedImage = null;
 let score = 0;
 let level = 1;
@@ -6,13 +10,12 @@ let timer = 0;
 let intervalId;
 
 function startGame() {
-    // Display a random image
     const randomIndex = Math.floor(Math.random() * images.length);
     const imageElement = document.getElementById('random-image');
     imageElement.src = images[randomIndex];
+    imageElement.style.display = 'block'; // Ensure the image is shown
     displayedImage = images[randomIndex];
 
-    // Hide the image after a few seconds
     setTimeout(() => {
         imageElement.style.display = 'none';
         displayBoard();
@@ -38,7 +41,6 @@ function displayBoard() {
     const boardContainer = document.getElementById('board');
     boardContainer.innerHTML = ''; // Clear existing cells
 
-    // Add cells to the board
     for (let i = 0; i < 16; i++) {
         const cell = document.createElement('div');
         cell.className = 'cell';
@@ -51,7 +53,6 @@ function displayPieces() {
     const piecesContainer = document.querySelector('.pieces-container');
     piecesContainer.innerHTML = ''; // Clear existing pieces
 
-    // Add pieces to the container
     const pieces = ['♖', '♗', '♘', '♙']; // Example chess pieces
     pieces.forEach(piece => {
         const pieceElement = document.createElement('div');
@@ -62,7 +63,6 @@ function displayPieces() {
         piecesContainer.appendChild(pieceElement);
     });
 
-    // Add drop targets to the board
     const cells = document.querySelectorAll('.cell');
     cells.forEach(cell => {
         cell.ondrop = drop;
@@ -86,8 +86,6 @@ function drop(event) {
 
 function submitAnswer() {
     clearInterval(intervalId);
-    // Check the user's answer and update the score
-    // This is a placeholder, you need to implement the logic to check the user's answer
     const correctAnswer = ['♖', '♗', '♘', '♙']; // Example correct answer
     let userAnswer = [];
     const cells = document.querySelectorAll('.cell');
@@ -106,8 +104,8 @@ function submitAnswer() {
 }
 
 function resetGame() {
-    // Reset the game state
     document.getElementById('random-image').style.display = 'block';
     document.getElementById('result').textContent = '';
     startGame();
 }
+
