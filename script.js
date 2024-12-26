@@ -2,12 +2,13 @@ const images = [
     "https://via.placeholder.com/200x200.png?text=Image+1",
     "https://via.placeholder.com/200x200.png?text=Image+2",
     "https://via.placeholder.com/200x200.png?text=Image+3"
-]; 
+];
 let displayedImage = null;
 let score = 0;
 let level = 1;
 let timer = 0;
 let intervalId;
+const pieces = ['♖', '♗', '♘', '♙']; // Example chess pieces
 
 function startGame() {
     const randomIndex = Math.floor(Math.random() * images.length);
@@ -19,7 +20,7 @@ function startGame() {
     setTimeout(() => {
         imageElement.style.display = 'none';
         displayBoard();
-        displayPieces();
+        placeRandomPieces(level);
         startTimer();
     }, 5000);
 }
@@ -49,11 +50,31 @@ function displayBoard() {
     }
 }
 
+function placeRandomPieces(level) {
+    const numPieces = Math.min(level + 2, pieces.length); // Increase number of pieces with levels
+    const cells = document.querySelectorAll('.cell');
+
+    // Clear cells before placing new pieces
+    cells.forEach(cell => cell.textContent = '');
+
+    // Place random pieces in random cells
+    for (let i = 0; i < numPieces; i++) {
+        const randomCellIndex = Math.floor(Math.random() * cells.length);
+        const randomPieceIndex = Math.floor(Math.random() * pieces.length);
+        cells[randomCellIndex].textContent = pieces[randomPieceIndex];
+    }
+
+    // Display the pieces for a few seconds before hiding them
+    setTimeout(() => {
+        cells.forEach(cell => cell.textContent = '');
+        displayPieces();
+    }, 5000);
+}
+
 function displayPieces() {
     const piecesContainer = document.querySelector('.pieces-container');
     piecesContainer.innerHTML = ''; // Clear existing pieces
 
-    const pieces = ['♖', '♗', '♘', '♙']; // Example chess pieces
     pieces.forEach(piece => {
         const pieceElement = document.createElement('div');
         pieceElement.className = 'piece';
@@ -88,7 +109,7 @@ function drop(event) {
 
 function submitAnswer() {
     clearInterval(intervalId);
-    const correctAnswer = ['♖', '♗', '♘', '♙']; // Example correct answer
+    const correctAnswer = getCorrectAnswer(level); // Function to generate correct answer based on level
     let userAnswer = [];
     const cells = document.querySelectorAll('.cell');
     cells.forEach(cell => userAnswer.push(cell.textContent || ''));
@@ -103,9 +124,27 @@ function submitAnswer() {
     document.getElementById('score').textContent = score;
     document.getElementById('level').textContent = level;
     document.getElementById('result').textContent = 'Your score: ' + score;
+
+    if (level <= pieces.length) {
+        startGame(); // Start the next level
+    } else {
+        alert("Congratulations! You've completed all levels!");
+        resetGame();
+    }
+}
+
+function getCorrectAnswer(level) {
+    const correctAnswer = [];
+    const numPieces = Math.min(level + 2, pieces.length);
+    for (let i = 0; i < numPieces; i++) {
+        correctAnswer.push(pieces[i]);
+    }
+    return correctAnswer;
 }
 
 function resetGame() {
+    score = 0;
+    level = 1;
     document.getElementById('random-image').style.display = 'block';
     document.getElementById('result').textContent = '';
     startGame();
