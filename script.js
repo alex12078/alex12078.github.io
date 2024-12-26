@@ -21,8 +21,10 @@ function startGame() {
         imageElement.style.display = 'none';
         displayBoard();
         placeRandomPieces(level);
-        startTimer();
-    }, 5000);
+    }, 5000); // Show image for 5 seconds
+
+    // Start the timer to memorize the pieces
+    setTimeout(startTimer, 5000); // Timer starts after pieces disappear
 }
 
 function startTimer() {
@@ -64,11 +66,11 @@ function placeRandomPieces(level) {
         cells[randomCellIndex].textContent = pieces[randomPieceIndex];
     }
 
-    // Display the pieces for a few seconds before hiding them
+    // Display the pieces for 5 seconds before hiding them
     setTimeout(() => {
         cells.forEach(cell => cell.textContent = '');
         displayPieces();
-    }, 5000);
+    }, 5000); // Pieces displayed for 5 seconds
 }
 
 function displayPieces() {
