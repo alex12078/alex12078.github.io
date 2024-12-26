@@ -17,6 +17,12 @@ body {
     margin-bottom: 20px;
 }
 
+.image-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
 .board-container {
     position: relative;
     margin-bottom: 20px;
@@ -51,3 +57,4 @@ body {
     margin: 5px;
     cursor: grab;
 }
+
