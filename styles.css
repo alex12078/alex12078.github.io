@@ -6,7 +6,6 @@ body {
     height: 100vh;
     background-color: #f0f0f0;
 }
-<link rel="stylesheet" href="styles.css">
 
 .game-container {
     text-align: center;
@@ -57,5 +56,9 @@ body {
     background-color: #ccc;
     margin: 5px;
     cursor: grab;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
 }
 
