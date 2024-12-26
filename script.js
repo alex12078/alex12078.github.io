@@ -25,7 +25,7 @@ function startGame() {
 }
 
 function startTimer() {
-    timer = 10; // Set the timer duration
+    timer = 30; // Set the timer duration to give you more time
     intervalId = setInterval(() => {
         if (timer > 0) {
             timer--;
@@ -81,7 +81,9 @@ function dragStart(event) {
 function drop(event) {
     event.preventDefault();
     const data = event.dataTransfer.getData("text");
-    event.target.textContent = data;
+    if (event.target.className === 'cell' && !event.target.textContent) { // Ensure target is empty cell
+        event.target.textContent = data;
+    }
 }
 
 function submitAnswer() {
@@ -89,9 +91,9 @@ function submitAnswer() {
     const correctAnswer = ['♖', '♗', '♘', '♙']; // Example correct answer
     let userAnswer = [];
     const cells = document.querySelectorAll('.cell');
-    cells.forEach(cell => userAnswer.push(cell.textContent));
+    cells.forEach(cell => userAnswer.push(cell.textContent || ''));
 
-    if (JSON.stringify(userAnswer) === JSON.stringify(correctAnswer)) {
+    if (JSON.stringify(userAnswer.slice(0, correctAnswer.length)) === JSON.stringify(correctAnswer)) {
         score += 10;
         level++;
     } else {
@@ -108,4 +110,3 @@ function resetGame() {
     document.getElementById('result').textContent = '';
     startGame();
 }
-
